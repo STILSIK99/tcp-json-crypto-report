@@ -1,0 +1,22 @@
+CREATE TRIGGER TR_GUN
+	ON gun
+	AFTER INSERT
+AS
+BEGIN
+	declare @serial varchar(30)
+	declare @num varchar(30)
+	declare @gt int
+	set @serial = (select serial from inserted)
+	set @num = (select num from inserted)
+	set @gt = (select id_gt from inserted)
+	
+	declare @p int
+	set @p = (select max(id_gun) from gun)
+	if @p = 2
+	begin
+		delete gun
+		where id_gun = @p
+	end
+END
+GO
+

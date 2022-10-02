@@ -1,0 +1,10 @@
+select op.date_outp,p.*,r.name_rang, g.*,gt.name_gun  
+from out_pesonnel op, zakreplenie z, personnel p, gun g, gun_type gt, rang r
+where op.id_zak = z.id_zak and z.id_ls = p.id_ls and p.id_rang = r.id_rang and
+z.id_gun = g.id_gun and gt.id_gt = g.id_gt 
+
+select gt.name_gun, g.*, p.*, r.name_rang
+from in_sklad ins, gun g, gun_type gt, personnel p, rang r
+where ins.id_gun = g.id_gun and ins.id_ls = p.id_ls and 
+gt.id_gt = g.id_gt and p.id_rang = r.id_rang and ins.date_ins
+between '' and ''

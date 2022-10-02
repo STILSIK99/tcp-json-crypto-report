@@ -1,0 +1,84 @@
+
+create table vid_gun (
+	id_vid int primary key identity,
+	name_vid varchar(100) not null,
+)
+create table roles (
+	id_role int primary key identity,
+	name_role varchar(100) not null,
+)
+create table gun_type (
+	id_gt int primary key identity,
+	name_gun varchar(100) not null,
+	id_vid int foreign key references vid_gun(id_vid)
+)
+
+create table rang (
+	id_rang int primary key identity,
+	name_rang varchar(100) not null
+)
+
+create table personnel(
+	id_ls int primary key identity,
+	fio varchar(150) not null,
+	id_role int foreign key references roles(id_role),
+	id_rang int foreign key references rang(id_rang),
+	info varchar(200)
+)
+create table gun (
+	id_gun int primary key identity,
+	num varchar(10),
+	serial varchar(10),
+	info varchar(200),
+	id_gt int foreign key references gun_type(id_gt)
+)
+
+create table zakreplenie(
+	id_zak int primary key identity,
+	id_ls int foreign key references personnel(id_ls),
+	id_gun int foreign key references gun(id_gun)
+)
+
+create table in_sklad(
+	id_ins int primary key identity,
+	date_ins date,
+	id_ls int foreign key references personnel(id_ls),
+	id_gun int foreign key references gun(id_gun)
+)
+
+create table out_sklad(
+	id_outs int primary key identity,
+	date_outs date,
+	id_ins int foreign key references in_sklad(id_ins),
+	id_ls int foreign key references personnel(id_ls)
+)
+
+create table out_personnel(
+	id_outp int primary key identity,
+	date_outp date,
+	id_ls int foreign key references personnel(id_ls),
+	id_zak int foreign key references zakreplenie(id_zak)
+)
+
+create table in_personnel(
+	id_inp int primary key identity,
+	date_inp date,
+	id_outp int foreign key references out_personnel(id_outp),
+	id_ls int foreign key references personnel(id_ls)
+)
+
+create table users(
+	login varchar(50),
+	hash varchar(256),
+	info varchar(20)
+)
+
+create table duty(
+	id_ls int foreign key references personnel(id_ls),
+	date_d date
+)
+
+create table KXO (
+	id_gun int foreign key references gun(id_gun)
+)
+
